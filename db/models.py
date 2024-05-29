@@ -2,11 +2,11 @@ from sqlalchemy import Column, Integer, String, Text, ForeignKey, Boolean, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils.types import ChoiceType
 
-from database import Base
+from db.database import Base
 
 
 class User(Base):
-    __table_name__ = 'user'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
     first_name = Column(String(20), nullable=True)
@@ -16,7 +16,7 @@ class User(Base):
     password = Column(String(20), nullable=True)
     is_staff = Column(Boolean, default=False)
     is_active = Column(Integer, default=False)
-    orders = relationship('Orders', back_populates='user')
+    orders = relationship('Orders', back_populates='users')
 
     def __repr__(self):
         return self.first_name
@@ -24,7 +24,7 @@ class User(Base):
 
 class Category(Base):
 
-    __table_name__ = 'category'
+    __tablename__ = 'category'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
@@ -33,7 +33,7 @@ class Category(Base):
 
 class Product(Base):
 
-    __table_name__ = 'product'
+    __tablename__ = 'product'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
@@ -45,10 +45,10 @@ class Product(Base):
 
 
 class Order(Base):
-    __table_name__ = 'orders'
+    __tablename__ = 'orders'
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     product_id = Column(Integer, ForeignKey('product.id'))
     user = relationship('User', back_populates='orders')
     product = relationship('Product', back_populates='orders')
