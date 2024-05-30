@@ -1,10 +1,10 @@
-from fastapi import APIRouter
-from fastapi import HTTPExpection
-from fastapi import status
+from fastapi import APIRouter, status, HTTPExpection
+
+from werkzeug import security
 
 from db.database import Session, ENGINE
-from schemas import RegisterModel
 from db.models import User
+from schemas import RegisterModel
 
 
 auth_router = APIRouter(prefix='/auth')
@@ -25,12 +25,13 @@ async def register_post(user: RegisterModel):
 
 
     new_user = User(
-        username=db_username,
+        username=username,
         email=user.email,
-        password=user.password,
+        password=security.generate_password_hash(user.password),
         is_staff=user.is_staff,
         is_active=user.is_active
     )
+    
 
 
 @auth_router.get('/login')
