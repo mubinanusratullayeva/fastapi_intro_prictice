@@ -16,7 +16,15 @@ async def orders():
     context = [
         {
             "id": order.id,
-            "user_id": order.user_id,
+            "user": {
+                "id": order.user.id,
+                "first_name": order.user.first_name,
+                "last_name": order.user.last_name,
+                "username": order.user.username,
+                "email": order.user.email,
+                "is_staff": orders.users.is_staff,
+                "is_active": order.user.is_active,
+            },
             "product_id": order.product_id,
         }
         for order in orders
