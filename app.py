@@ -5,6 +5,14 @@ from replit import db
 from app.utils import get_hashed_password
 from uuid import uuid4
 
+
+from app.deps import get_current_user
+
+@app.get('/me', summary='Get details of currently logged in user', response_model=UserOut)
+async def get_me(user: User = Depends(get_current_user)):
+    return user
+
+
 @app.post('/signup', summary="Create new user", response_model=UserOut)
 async def create_user(data: UserAuth):
 
